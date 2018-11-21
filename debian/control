@@ -1,0 +1,13 @@
+Source: ros-indigo-nav-core-adapter
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin, ros-indigo-costmap-2d, ros-indigo-dwb-critics, ros-indigo-dwb-local-planner, ros-indigo-dwb-plugins, ros-indigo-geometry-msgs, ros-indigo-nav-2d-msgs, ros-indigo-nav-2d-utils, ros-indigo-nav-core, ros-indigo-nav-core2, ros-indigo-nav-grid, ros-indigo-nav-msgs, ros-indigo-pluginlib, ros-indigo-roslint, ros-indigo-rostest, ros-indigo-tf, ros-indigo-visualization-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-nav-core-adapter
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-costmap-2d, ros-indigo-geometry-msgs, ros-indigo-nav-2d-msgs, ros-indigo-nav-2d-utils, ros-indigo-nav-core, ros-indigo-nav-core2, ros-indigo-nav-grid, ros-indigo-nav-msgs, ros-indigo-pluginlib, ros-indigo-tf, ros-indigo-visualization-msgs
+Description: This package contains adapters for using `nav_core` plugins as `nav_core2` plugins and vice versa (more or less).
+ See README.md for more information.
