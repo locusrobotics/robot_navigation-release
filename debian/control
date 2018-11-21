@@ -1,0 +1,12 @@
+Source: ros-indigo-dwb-msgs
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin, ros-indigo-geometry-msgs, ros-indigo-message-generation, ros-indigo-nav-2d-msgs, ros-indigo-nav-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-dwb-msgs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-geometry-msgs, ros-indigo-message-runtime, ros-indigo-nav-2d-msgs, ros-indigo-nav-msgs
+Description: Message/Service definitions specifically for the dwb_local_planner
