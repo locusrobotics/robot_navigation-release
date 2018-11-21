@@ -1,36 +1,71 @@
-## The robot_navigation Stack
-### 2.5D Navigation in ROS
+# global_planner_tests
 
-## Available Packages:
+This package provides an array of tests for implementations of the `nav_core2::GlobalPlanner` interface. By making this package a `test_depend` of your implementation, you can easily write tests that run a fairly comprehensive suite of tests for your planner.
 
-### Core Interaces
- * `nav_grid` - A templatized interface for overlaying a two dimensional grid on the world.
- * `nav_core2` - Core Costmap and Planner Interfaces
- * `nav_2d_msgs` - Basic message types for two and a half dimensional navigation.
+## Example
+For the highest view of a planner's functionality, simply run a test against `global_planner_tests::many_map_test_suite`.
 
-### Local Planning
- * `dwb_local_planner` - The core planner logic and plugin interfaces.
- * `dwb_msgs` - ROS Interfaces for interacting with the dwb local planner.
- * `dwb_plugins` - Plugin implementations for velocity iteration and trajectory generation
- * `dwb_critics` - Critic plugin implementations needed for replicating behavior of dwa
+``` c++
+#include <global_planner_tests/many_map_test_suite.h>
+#include <your_planner/your_planner.h>
+#include <ros/ros.h>
+#include <gtest/gtest.h>
+#include <string>
 
-### Global Planning
- * `dlux_global_planner` - The core planner logic and plugin interfaces.
- * `dlux_plugins` - Plugin implementations for dlux global planner interfaces.
- * `global_planner_tests` - Collection of tests for checking the validity and completeness of global planners.
+TEST(YourPlanner, simple_planner_test)
+{
+  TFListenerPtr tf = std::make_shared<tf::TransformListener>(ros::Duration(10));
+  your_planner::YourPlanner planner;
+  EXPECT_TRUE(global_planner_tests::many_map_test_suite(planner, tf, "your_planner_namespace"));
+}
 
-### Planner Coordination
- * `locomotor` - Extensible path planning coordination engine that controls what happens when the global and local planners succeed and fail
- * `locomotor_msgs` - An action definition for Locomotor and other related messages
- * `locomove_base` - Extension of Locomotor that replicates `move_base`'s functionality.
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "planner_tests");
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
+```
 
-### Utilities
- * `nav_2d_utils` - Message conversions, etc.
- * `nav_grid_iterators` - Iterator implementations for moving around the cells of a `nav_grid` in a number of common patterns.
- * `nav_grid_pub_sub` - Publishers and Subscribers for `nav_grid` data.
- * `costmap_queue` - Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
+## The Tests
+This package contains a collection of image files (in the [maps](maps) directory) that are used as static maps. For most of the maps, the following tests will be run.
+ * Check if a plan is generated from every free cell in the map to every other free cell in the map (`checkValidPathCoverage()`)
+ * Check if planning to or from cells that are occupied in the costmap results in the appropriate exception being thrown. (`checkOccupiedPathCoverage()`)
+ * Check if planning to or from cells outside the costmap results in the appropriate exception being thrown. (`checkOutOfBoundsPathCoverage()`)
 
-### Backwards Compatibility
- * `nav_core_adapter` - Adapters between `nav_core` and `nav_core2`.
+Collectively, these tests are run with `hasCompleteCoverage()`
 
-### More to come!
+The one exception is with the `nopaths.png` map, which instead will
+ * Check if the planning from any of the free cells to any other free cell results in the appropriate exception being thrown. (`hasNoPaths()`)
+
+You can run all the tests listed above with the appropriate maps using the `many_map_test_suite` mentioned in the example, or you can customize the maps and functions called using the `global_planner_tests` library directly.
+
+
+## Executables
+For debugging, this package provides three executable nodes.
+ * `gpt_node` - Runs `hasCompleteCoverage()` with a planner loaded from `pluginlib`. The map used is also configurable on the parameter server.
+ * `many_map_node` - Runs `many_map_test_suite` with a planner loaded from `pluginlib`
+ * `heatmap_node` - Runs a variation on `checkValidPathCoverage()` that prints a heatmap to the console with which cells in the map were frequently unable to get paths planned to/from them. Useful for annoying corner cases where your planner fails. Definitely NOT speaking from experience.
+
+ ### Example Heatmap
+```
+...............
+.. 9         ..
+.             .
+.             .
+.  .     .    .
+.             .
+.             .
+.             .
+.             .
+. .        .  .
+.  .      .   .
+.   ......    .
+.             .
+..      44   ..
+...............
+```
+#### Legend:
+ * `.` - Cell is an obstacle
+ * `(space)` - No problems planning to or from this cell
+ * `(#)` - If the digit in the cell is `X`, greater than `10*X` percent of the failures came to/from this cell. In the above example, 100% of the failures involved the top cell with a `9`, and 50% involved each of the bottom cells with `4`s. Its a little convoluted, but such are the limitations of ASCII art. And it still gets the point across.
