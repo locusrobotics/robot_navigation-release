@@ -1,0 +1,12 @@
+Source: ros-kinetic-dwb-critics
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kinetic-angles, ros-kinetic-catkin, ros-kinetic-costmap-queue, ros-kinetic-dwb-local-planner, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core2, ros-kinetic-nav-grid-iterators, ros-kinetic-pluginlib, ros-kinetic-roscpp, ros-kinetic-roslint, ros-kinetic-sensor-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-dwb-critics
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-angles, ros-kinetic-costmap-queue, ros-kinetic-dwb-local-planner, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core2, ros-kinetic-nav-grid-iterators, ros-kinetic-pluginlib, ros-kinetic-roscpp, ros-kinetic-sensor-msgs
+Description: Implementations for dwb_local_planner TrajectoryCritic interface
