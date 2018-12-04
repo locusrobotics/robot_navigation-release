@@ -1,36 +1,31 @@
-## The robot_navigation Stack
-### 2.5D Navigation in ROS
+# dwb_critics
+This package contains plugin implementations of `dwb_local_planner::TrajectoryCritic` sufficient to replicate the behavior of `dwa_local_planner`.
 
-## Available Packages:
+## Obstacle Avoidance
+There are two options for critics that examine the contents of the costmap and reject trajectories that come close to obstacles.
+ * `BaseObstacleCritic` assumes a circular robot, and therefore only needs to check one cell in the costmap for each pose in the trajectory (assuming the costmap is properly inflated).
+ * `ObstacleFootprintCritic` uses the robot's footprint and checks all of the cells along the outline of the robot's footprint at each pose.
 
-### Core Interaces
- * `nav_grid` - A templatized interface for overlaying a two dimensional grid on the world.
- * `nav_core2` - Core Costmap and Planner Interfaces
- * `nav_2d_msgs` - Basic message types for two and a half dimensional navigation.
+## Progress Toward the Goal along the Path
+There are two critics which evaluate the robot's position at the end of the trajectory relative to the goal pose and the global plan.
+ * `GoalDistCritic` estimates the distance from the last pose to the goal pose.
+ * `PathDistCritic` estimates the distance from the last pose to the closest pose in the global plan.
 
-### Local Planning
- * `dwb_local_planner` - The core planner logic and plugin interfaces.
- * `dwb_msgs` - ROS Interfaces for interacting with the dwb local planner.
- * `dwb_plugins` - Plugin implementations for velocity iteration and trajectory generation
- * `dwb_critics` - Critic plugin implementations needed for replicating behavior of dwa
+## Alignment
+There are also two critics for keeping the robot pointed in the right direction. They use a point on the front of the robot as a proxy to calculate which way the robot is pointed.
+ * `GoalAlignCritic` estimates the distance from the front of the robot to the goal pose. This score will be higher if the robot is pointed away from the goal.
+ * `PathAlignCritic` estimates the distance from the front of the robot to the closest point in the global plan. This score will be higher if the robot is pointed away from the global plan.
 
-### Global Planning
- * `dlux_global_planner` - The core planner logic and plugin interfaces.
- * `dlux_plugins` - Plugin implementations for dlux global planner interfaces.
- * `global_planner_tests` - Collection of tests for checking the validity and completeness of global planners.
+## Rotating to the Goal
+There is a special case in the navigation when the robot reaches the correct XY position, but still needs to rotate to the proper yaw. The standard critics will not be useful in this case. Instead we have `RotateToGoalCritic` which operates in a couple different modes.
+ * If the robot is not yet in the correct XY position, it has no effect on the trajectory score.
+ * If the robot is at the correct XY position but still moving, this critic will score the trajecotries such that the robot slows down.
+ * If the robot is at the correct XY position and stopped its forward motion, the critic will
+    A) Disallow trajectories with forward motion
+    B) Score trajectories (rotations) based on how close to the goal yaw they get.
 
-### Planner Coordination
- * `locomotor` - Extensible path planning coordination engine that controls what happens when the global and local planners succeed and fail
- * `locomotor_msgs` - An action definition for Locomotor and other related messages
- * `locomove_base` - Extension of Locomotor that replicates `move_base`'s functionality.
+## Other Critics
+ * `OscillationCritic` detects oscillations by looking at the sign of the commanded motions. For example, if in a short window, the robot moves forward and then backward, it will penalize further trajectories that move forward again, as that is considered an oscillation.
+ * `PreferForwardCritic` was implemented but not used by `DWA` and penalize trajectories that move backwards and/or turn too much.
+ * `TwirlingCritic` penalizes trajectories with rotational velocities
 
-### Utilities
- * `nav_2d_utils` - Message conversions, etc.
- * `nav_grid_iterators` - Iterator implementations for moving around the cells of a `nav_grid` in a number of common patterns.
- * `nav_grid_pub_sub` - Publishers and Subscribers for `nav_grid` data.
- * `costmap_queue` - Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
-
-### Backwards Compatibility
- * `nav_core_adapter` - Adapters between `nav_core` and `nav_core2`.
-
-### More to come!
