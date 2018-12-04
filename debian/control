@@ -1,0 +1,12 @@
+Source: ros-melodic-global-planner-tests
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libyaml-cpp-dev, ros-melodic-catkin, ros-melodic-map-server, ros-melodic-nav-core2, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-roscpp, ros-melodic-roslint
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-global-planner-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libyaml-cpp-dev, ros-melodic-map-server, ros-melodic-nav-core2, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-roscpp
+Description: A collection of tests for checking the validity and completeness of global planners.
