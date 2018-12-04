@@ -1,0 +1,12 @@
+Source: ros-melodic-locomove-base
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-locomotor, ros-melodic-move-base-msgs, ros-melodic-nav-2d-utils, ros-melodic-nav-core, ros-melodic-nav-core-adapter, ros-melodic-roslint
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-locomove-base
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-locomotor, ros-melodic-move-base-msgs, ros-melodic-nav-2d-utils, ros-melodic-nav-core, ros-melodic-nav-core-adapter
+Description: Extension of locomotor that implements move_base's functionality.
