@@ -1,0 +1,12 @@
+Source: ros-indigo-dwb-critics
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-angles, ros-indigo-catkin, ros-indigo-costmap-queue, ros-indigo-dwb-local-planner, ros-indigo-geometry-msgs, ros-indigo-nav-2d-msgs, ros-indigo-nav-2d-utils, ros-indigo-nav-core2, ros-indigo-nav-grid-iterators, ros-indigo-pluginlib, ros-indigo-roscpp, ros-indigo-roslint, ros-indigo-sensor-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-dwb-critics
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-angles, ros-indigo-costmap-queue, ros-indigo-dwb-local-planner, ros-indigo-geometry-msgs, ros-indigo-nav-2d-msgs, ros-indigo-nav-2d-utils, ros-indigo-nav-core2, ros-indigo-nav-grid-iterators, ros-indigo-pluginlib, ros-indigo-roscpp, ros-indigo-sensor-msgs
+Description: Implementations for dwb_local_planner TrajectoryCritic interface
