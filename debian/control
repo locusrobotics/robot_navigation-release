@@ -1,0 +1,12 @@
+Source: ros-indigo-robot-navigation
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-robot-navigation
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-costmap-queue, ros-indigo-dlux-global-planner, ros-indigo-dlux-plugins, ros-indigo-dwb-critics, ros-indigo-dwb-local-planner, ros-indigo-dwb-msgs, ros-indigo-dwb-plugins, ros-indigo-global-planner-tests, ros-indigo-locomotor, ros-indigo-locomotor-msgs, ros-indigo-locomove-base, ros-indigo-nav-2d-msgs, ros-indigo-nav-2d-utils, ros-indigo-nav-core-adapter, ros-indigo-nav-core2, ros-indigo-nav-grid, ros-indigo-nav-grid-iterators, ros-indigo-nav-grid-pub-sub
+Description: The robot_navigation package
