@@ -3,11 +3,11 @@ project(nav_core2)
 set_directory_properties(PROPERTIES COMPILE_OPTIONS "-std=c++11")
 
 find_package(catkin REQUIRED
-    COMPONENTS nav_2d_msgs nav_grid tf2_ros
+    COMPONENTS nav_2d_msgs nav_grid tf
 )
 
 catkin_package(
-    CATKIN_DEPENDS nav_2d_msgs nav_grid tf2_ros
+    CATKIN_DEPENDS nav_2d_msgs nav_grid tf
     INCLUDE_DIRS include
     LIBRARIES basic_costmap
 )
@@ -22,7 +22,7 @@ include_directories(
 )
 
 if(CATKIN_ENABLE_TESTING)
-  find_package(roslint)
+  find_package(roslint REQUIRED)
   roslint_cpp()
   roslint_add_test()
 

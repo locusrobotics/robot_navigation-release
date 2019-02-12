@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>nav_core2</name>
-  <version>0.2.4</version>
+  <version>0.2.5</version>
   <description>
       Interfaces for Costmap, LocalPlanner and GlobalPlanner. Replaces nav_core.
   </description>
@@ -11,6 +11,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>nav_2d_msgs</depend>
   <depend>nav_grid</depend>
-  <depend>tf2_ros</depend>
+  <depend>tf</depend>
   <test_depend>roslint</test_depend>
+  <test_depend>rosunit</test_depend>
 </package>

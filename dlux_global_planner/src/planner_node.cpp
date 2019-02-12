@@ -38,7 +38,6 @@
 #include <nav_2d_utils/conversions.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
-#include <tf2_ros/transform_listener.h>
 #include <visualization_msgs/Marker.h>
 #include <string>
 
@@ -66,8 +65,7 @@ public:
     ros::NodeHandle nh("~");
     marker_pub_ = nh.advertise<visualization_msgs::Marker>("/visualization_marker", 10);
 
-    tf_ = std::make_shared<tf2_ros::Buffer>();
-    tf2_ = std::make_shared<tf2_ros::TransformListener>(*tf_);
+    tf_ = std::make_shared<tf::TransformListener>(ros::Duration(10));
     std::string costmap_class;
     nh.param("global_costmap_class", costmap_class, std::string("nav_core_adapter::CostmapAdapter"));
     costmap_ = costmap_loader_.createUniqueInstance(costmap_class);
@@ -115,7 +113,7 @@ private:
     {
       plan = gp_.makePlan(start_, goal_);
     }
-    catch (nav_core2::PlannerException e)
+    catch (nav_core2::PlannerException& e)
     {
       ROS_ERROR("%s", e.what());
     }
@@ -175,7 +173,6 @@ private:
   ros::Publisher marker_pub_;
 
   TFListenerPtr tf_;
-  std::shared_ptr<tf2_ros::TransformListener> tf2_;
   nav_core2::Costmap::Ptr costmap_;
   pluginlib::ClassLoader<nav_core2::Costmap> costmap_loader_;
   dlux_global_planner::DluxGlobalPlanner gp_;

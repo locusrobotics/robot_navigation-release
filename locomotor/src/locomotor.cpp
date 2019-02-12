@@ -55,8 +55,7 @@ Locomotor::Locomotor(const ros::NodeHandle& private_nh) :
                      "current_local_planner", "switch_local_planner"),
   private_nh_(private_nh), path_pub_(private_nh_), twist_pub_(private_nh_)
 {
-  tf_ = std::make_shared<tf2_ros::Buffer>();
-  tf2_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_);
+  tf_ = std::make_shared<tf::TransformListener>(ros::Duration(10));
 
   private_nh_.param("robot_base_frame", robot_base_frame_, std::string("base_link"));
 
