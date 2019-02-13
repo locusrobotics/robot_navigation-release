@@ -1,0 +1,12 @@
+Source: ros-lunar-nav-grid-iterators
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lunar-catkin, ros-lunar-nav-2d-msgs, ros-lunar-nav-2d-utils, ros-lunar-nav-grid, ros-lunar-nav-msgs, ros-lunar-roscpp, ros-lunar-roslint, ros-lunar-rosunit
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-nav-grid-iterators
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lunar-nav-2d-msgs, ros-lunar-nav-2d-utils, ros-lunar-nav-grid, ros-lunar-nav-msgs, ros-lunar-roscpp
+Description: Iterator implementations for moving around the cells of a nav_grid in a number of common patterns.
