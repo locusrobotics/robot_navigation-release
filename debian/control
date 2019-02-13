@@ -1,0 +1,12 @@
+Source: ros-lunar-nav-2d-utils
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lunar-catkin, ros-lunar-geometry-msgs, ros-lunar-nav-2d-msgs, ros-lunar-nav-core2, ros-lunar-nav-grid, ros-lunar-nav-msgs, ros-lunar-pluginlib, ros-lunar-roscpp, ros-lunar-roslint, ros-lunar-rostest, ros-lunar-rosunit, ros-lunar-std-msgs, ros-lunar-tf, ros-lunar-xmlrpcpp
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-nav-2d-utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lunar-geometry-msgs, ros-lunar-nav-2d-msgs, ros-lunar-nav-core2, ros-lunar-nav-grid, ros-lunar-nav-msgs, ros-lunar-pluginlib, ros-lunar-roscpp, ros-lunar-std-msgs, ros-lunar-tf, ros-lunar-xmlrpcpp
+Description: A handful of useful utility functions for nav_core2 packages.
