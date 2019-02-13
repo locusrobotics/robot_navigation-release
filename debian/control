@@ -1,0 +1,13 @@
+Source: ros-melodic-nav-core-adapter
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-costmap-2d, ros-melodic-dwb-critics, ros-melodic-dwb-local-planner, ros-melodic-dwb-plugins, ros-melodic-geometry-msgs, ros-melodic-nav-2d-msgs, ros-melodic-nav-2d-utils, ros-melodic-nav-core, ros-melodic-nav-core2, ros-melodic-nav-grid, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-roslint, ros-melodic-rostest, ros-melodic-tf, ros-melodic-visualization-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-nav-core-adapter
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-costmap-2d, ros-melodic-geometry-msgs, ros-melodic-nav-2d-msgs, ros-melodic-nav-2d-utils, ros-melodic-nav-core, ros-melodic-nav-core2, ros-melodic-nav-grid, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-tf, ros-melodic-visualization-msgs
+Description: This package contains adapters for using `nav_core` plugins as `nav_core2` plugins and vice versa (more or less).
+ See README.md for more information.
