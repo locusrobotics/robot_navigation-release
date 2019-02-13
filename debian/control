@@ -1,0 +1,12 @@
+Source: ros-melodic-dlux-plugins
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-dlux-global-planner, ros-melodic-global-planner-tests, ros-melodic-nav-core2, ros-melodic-nav-grid, ros-melodic-pluginlib, ros-melodic-roslint, ros-melodic-rostest
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-dlux-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-dlux-global-planner, ros-melodic-nav-core2, ros-melodic-nav-grid, ros-melodic-pluginlib
+Description: Implementation of dlux_global_planner plugin interfaces.
