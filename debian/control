@@ -1,0 +1,12 @@
+Source: ros-melodic-nav-2d-utils
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-geometry-msgs, ros-melodic-nav-2d-msgs, ros-melodic-nav-core2, ros-melodic-nav-grid, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-roscpp, ros-melodic-roslint, ros-melodic-rostest, ros-melodic-rosunit, ros-melodic-std-msgs, ros-melodic-tf, ros-melodic-tf2-geometry-msgs, ros-melodic-tf2-ros, ros-melodic-xmlrpcpp
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-nav-2d-utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-geometry-msgs, ros-melodic-nav-2d-msgs, ros-melodic-nav-core2, ros-melodic-nav-grid, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-roscpp, ros-melodic-std-msgs, ros-melodic-tf, ros-melodic-tf2-geometry-msgs, ros-melodic-tf2-ros, ros-melodic-xmlrpcpp
+Description: A handful of useful utility functions for nav_core2 packages.
