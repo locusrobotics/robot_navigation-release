@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>dwb_local_planner</name>
-  <version>0.2.2</version>
+  <version>0.2.5</version>
   <description>
     Plugin based local planner implementing the nav_core2::LocalPlanner interface.
   </description>
@@ -24,8 +24,9 @@
   <depend>tf</depend>
   <depend>visualization_msgs</depend>
   <test_depend>roslint</test_depend>
+  <test_depend>rostest</test_depend>
+  <test_depend>rosunit</test_depend>
   <export>
     <nav_core2 plugin="${prefix}/plugins.xml"/>
   </export>
-
 </package>
