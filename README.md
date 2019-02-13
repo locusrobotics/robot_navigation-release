@@ -1,3 +1,45 @@
+## robot_navigation (lunar) - 0.2.5-0
+
+The packages in the `robot_navigation` repository were released into the `lunar` distro by running `/usr/bin/bloom-release robot_navigation -r lunar -y` on `Wed, 13 Feb 2019 15:58:33 -0000`
+
+These packages were released:
+- `costmap_queue`
+- `dlux_global_planner`
+- `dlux_plugins`
+- `dwb_critics`
+- `dwb_local_planner`
+- `dwb_msgs`
+- `dwb_plugins`
+- `global_planner_tests`
+- `locomotor`
+- `locomotor_msgs`
+- `locomove_base`
+- `nav_2d_msgs`
+- `nav_2d_utils`
+- `nav_core2`
+- `nav_core_adapter`
+- `nav_grid`
+- `nav_grid_iterators`
+- `nav_grid_pub_sub`
+- `robot_navigation`
+
+Version of package(s) in repository `robot_navigation`:
+
+- upstream repository: https://github.com/locusrobotics/robot_navigation.git
+- release repository: https://github.com/locusrobotics/robot_navigation-release.git
+- rosdistro version: `0.2.2-0`
+- old version: `0.2.2-0`
+- new version: `0.2.5-0`
+
+Versions of tools used:
+
+- bloom version: `0.7.2`
+- catkin_pkg version: `0.4.10`
+- rosdep version: `0.15.0`
+- rosdistro version: `0.7.2`
+- vcstools version: `0.1.40`
+
+
 ## robot_navigation (kinetic) - 0.2.5-0
 
 The packages in the `robot_navigation` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release robot_navigation -r kinetic -y` on `Wed, 13 Feb 2019 15:13:57 -0000`
