@@ -1,0 +1,13 @@
+Source: ros-melodic-locomotor
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-actionlib, ros-melodic-catkin, ros-melodic-geometry-msgs, ros-melodic-locomotor-msgs, ros-melodic-nav-2d-msgs, ros-melodic-nav-2d-utils, ros-melodic-nav-core2, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-roscpp, ros-melodic-roslint, ros-melodic-rospy
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-locomotor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-actionlib, ros-melodic-geometry-msgs, ros-melodic-locomotor-msgs, ros-melodic-nav-2d-msgs, ros-melodic-nav-2d-utils, ros-melodic-nav-core2, ros-melodic-nav-msgs, ros-melodic-pluginlib, ros-melodic-roscpp, ros-melodic-rospy
+Description: Locomotor is an extensible path planning coordination engine that replaces move_base.
+ The goal is to provide a mechanism for controlling what happens when the global and local planners succeed and fail. It leverages ROS callback queues to coordinate multiple threads.
