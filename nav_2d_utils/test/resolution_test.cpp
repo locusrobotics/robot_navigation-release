@@ -31,55 +31,48 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
+#include <gtest/gtest.h>
+#include <nav_2d_utils/path_ops.h>
 
-#ifndef NAV_2D_UTILS_GEOMETRY_HELP_H
-#define NAV_2D_UTILS_GEOMETRY_HELP_H
+using nav_2d_utils::adjustPlanResolution;
+using nav_2d_utils::addPose;
 
-#include <cmath>
-
-namespace nav_2d_utils
+TEST(ResolutionTest, simple_example)
 {
-/**
- * @brief Distance from point (pX, pY) to closest point on line from (x0, y0) to (x1, y1)
- * @param pX
- * @param pY
- * @param x0
- * @param y0
- * @param x1
- * @param y1
- * @return shortest distance from point to line
- */
-inline double distanceToLine(double pX, double pY, double x0, double y0, double x1, double y1)
-{
-  double A = pX - x0;
-  double B = pY - y0;
-  double C = x1 - x0;
-  double D = y1 - y0;
+  nav_2d_msgs::Path2D path;
+  // Space between points is one meter
+  addPose(path, 0.0, 0.0);
+  addPose(path, 0.0, 1.0);
 
-  double dot = A * C + B * D;
-  double len_sq = C * C + D * D;
-  double param = dot / len_sq;
+  // resolution>=1, path won't change
+  EXPECT_EQ(2U, adjustPlanResolution(path, 2.0).poses.size());
+  EXPECT_EQ(2U, adjustPlanResolution(path, 1.0).poses.size());
 
-  double xx, yy;
+  // 0.5 <= resolution < 1.0, one point should be added in the middle
+  EXPECT_EQ(3U, adjustPlanResolution(path, 0.8).poses.size());
+  EXPECT_EQ(3U, adjustPlanResolution(path, 0.5).poses.size());
 
-  if (param < 0)
-  {
-    xx = x0;
-    yy = y0;
-  }
-  else if (param > 1)
-  {
-    xx = x1;
-    yy = y1;
-  }
-  else
-  {
-    xx = x0 + param * C;
-    yy = y0 + param * D;
-  }
+  // 0.333 <= resolution < 0.5, two points need to be added
+  EXPECT_EQ(4U, adjustPlanResolution(path, 0.34).poses.size());
 
-  return hypot(pX - xx, pY - yy);
+  // 0.25 <= resolution < 0.333, three points need to be added
+  EXPECT_EQ(5U, adjustPlanResolution(path, 0.32).poses.size());
 }
-}  // namespace nav_2d_utils
 
-#endif  // NAV_2D_UTILS_GEOMETRY_HELP_H
+TEST(ResolutionTest, real_example)
+{
+  // This test is based on a real-world example
+  nav_2d_msgs::Path2D path;
+  addPose(path, 17.779193, -0.972024);
+  addPose(path, 17.799171, -0.950775);
+  addPose(path, 17.851942, -0.903709);
+  EXPECT_EQ(3U, adjustPlanResolution(path, 0.2).poses.size());
+  EXPECT_EQ(4U, adjustPlanResolution(path, 0.05).poses.size());
+}
+
+
+int main(int argc, char** argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
