@@ -1,0 +1,12 @@
+Source: ros-lunar-dlux-global-planner
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lunar-catkin, ros-lunar-geometry-msgs, ros-lunar-nav-2d-msgs, ros-lunar-nav-2d-utils, ros-lunar-nav-core2, ros-lunar-nav-grid, ros-lunar-nav-grid-pub-sub, ros-lunar-nav-msgs, ros-lunar-pluginlib, ros-lunar-roscpp, ros-lunar-roslint, ros-lunar-rostest, ros-lunar-rosunit, ros-lunar-visualization-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-dlux-global-planner
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lunar-geometry-msgs, ros-lunar-nav-2d-msgs, ros-lunar-nav-2d-utils, ros-lunar-nav-core2, ros-lunar-nav-grid, ros-lunar-nav-grid-pub-sub, ros-lunar-nav-msgs, ros-lunar-pluginlib, ros-lunar-roscpp, ros-lunar-visualization-msgs
+Description: Plugin based global planner implementing the nav_core2::GlobalPlanner interface.
