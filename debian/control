@@ -1,0 +1,12 @@
+Source: ros-lunar-global-planner-tests
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libyaml-cpp-dev, ros-lunar-catkin, ros-lunar-map-server, ros-lunar-nav-core2, ros-lunar-nav-msgs, ros-lunar-pluginlib, ros-lunar-roscpp, ros-lunar-roslint
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-global-planner-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libyaml-cpp-dev, ros-lunar-map-server, ros-lunar-nav-core2, ros-lunar-nav-msgs, ros-lunar-pluginlib, ros-lunar-roscpp
+Description: A collection of tests for checking the validity and completeness of global planners.
