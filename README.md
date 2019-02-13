@@ -1,36 +1,21 @@
-## The robot_navigation Stack
-### 2.5D Navigation in ROS
+# locomotor_msgs
 
-## Available Packages:
+This class provides the `NavigateToPose` action for use with `actionlib+locomotor`. The idea is to provide more useful feedback than [MoveBase.action](http://docs.ros.org/api/move_base_msgs/html/action/MoveBase.html).
 
-### Core Interaces
- * `nav_grid` - A templatized interface for overlaying a two dimensional grid on the world.
- * `nav_core2` - Core Costmap and Planner Interfaces
- * `nav_2d_msgs` - Basic message types for two and a half dimensional navigation.
+Developers are encouraged to define their own actions that have statistics/constraints relative to their own domains.
 
-### Local Planning
- * `dwb_local_planner` - The core planner logic and plugin interfaces.
- * `dwb_msgs` - ROS Interfaces for interacting with the dwb local planner.
- * `dwb_plugins` - Plugin implementations for velocity iteration and trajectory generation
- * `dwb_critics` - Critic plugin implementations needed for replicating behavior of dwa
+## Progress City
+The `percent_complete` field in the `NavigateToPoseFeedback` is provided as a convenience, and is equivalent to `distance_traveled / (distance_traveled + estimated_distance_remaining)`. Note that with the current implementation, it is possible for `percent_complete` to go down if the `estimated_distance_remaining` goes up, which can happen when the global plan is blocked and a new longer global plan is found instead.
 
-### Global Planning
- * `dlux_global_planner` - The core planner logic and plugin interfaces.
- * `dlux_plugins` - Plugin implementations for dlux global planner interfaces.
- * `global_planner_tests` - Collection of tests for checking the validity and completeness of global planners.
+## I Want Results!
+When the action finishes, the action client can figure out whether the action succeeded by checking if the `state` is `SUCCEEDED` or `ABORTED`. The `SimpleActionServer/Client` also provides ["an optional text message"](https://github.com/ros/actionlib/blob/9210d811d105eabe72ff4741dece801f36e9064a/include/actionlib/server/simple_action_server.h#L165). While these two fields may provide sufficient information about the final state of the action, we provide one other method for providing final feedback.
 
-### Planner Coordination
- * `locomotor` - Extensible path planning coordination engine that controls what happens when the global and local planners succeed and fail
- * `locomotor_msgs` - An action definition for Locomotor and other related messages
- * `locomove_base` - Extension of Locomotor that replicates `move_base`'s functionality.
+The `NavigateToPoseResult` contains a `ResultCode` message, which contains the integer field `result_code` and some enums for possible values of `result_code`.
 
-### Utilities
- * `nav_2d_utils` - Message conversions, etc.
- * `nav_grid_iterators` - Iterator implementations for moving around the cells of a `nav_grid` in a number of common patterns.
- * `nav_grid_pub_sub` - Publishers and Subscribers for `nav_grid` data.
- * `costmap_queue` - Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
 
-### Backwards Compatibility
- * `nav_core_adapter` - Adapters between `nav_core` and `nav_core2`.
+These Exception Codes are Based on
 
-### More to come!
+  1. Which of the four components (Global/Local Costmap, Global/Local Planner) the error originates from
+  2. The particular exception thrown, based on the exception hierarchy defined in `nav_core2/exceptions.h`
+
+These particular result codes are used in conjunction with the `StateMachine`s defined in the `locomotor` package, but other user-implemented `StateMachine`s could use different custom-error codes, or build onto the existing error codes, as some space is left between the existing enum values.
