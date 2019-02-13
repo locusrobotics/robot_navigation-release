@@ -1,0 +1,12 @@
+Source: ros-lunar-robot-navigation
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lunar-catkin
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-robot-navigation
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lunar-costmap-queue, ros-lunar-dlux-global-planner, ros-lunar-dlux-plugins, ros-lunar-dwb-critics, ros-lunar-dwb-local-planner, ros-lunar-dwb-msgs, ros-lunar-dwb-plugins, ros-lunar-global-planner-tests, ros-lunar-locomotor, ros-lunar-locomotor-msgs, ros-lunar-locomove-base, ros-lunar-nav-2d-msgs, ros-lunar-nav-2d-utils, ros-lunar-nav-core-adapter, ros-lunar-nav-core2, ros-lunar-nav-grid, ros-lunar-nav-grid-iterators, ros-lunar-nav-grid-pub-sub
+Description: The robot_navigation package
