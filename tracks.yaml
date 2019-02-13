@@ -90,7 +90,7 @@ tracks:
     patches: null
     release_inc: '0'
     release_repo_url: null
-    release_tag: :{version}
+    release_tag: tf2:{version}
     ros_distro: melodic
     vcs_type: git
     vcs_uri: https://github.com/locusrobotics/robot_navigation.git
