@@ -1,0 +1,13 @@
+Source: ros-melodic-nav-core2
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-nav-2d-msgs, ros-melodic-nav-grid, ros-melodic-roslint, ros-melodic-rosunit, ros-melodic-tf2-ros
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-nav-core2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-nav-2d-msgs, ros-melodic-nav-grid, ros-melodic-tf2-ros
+Description: Interfaces for Costmap, LocalPlanner and GlobalPlanner.
+ Replaces nav_core.
