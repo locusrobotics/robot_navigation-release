@@ -1,0 +1,12 @@
+Source: ros-lunar-nav-grid
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lunar-catkin, ros-lunar-roslint, ros-lunar-rosunit
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-nav-grid
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, 
+Description: A templatized interface for overlaying a two dimensional grid on the world.
