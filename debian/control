@@ -1,0 +1,13 @@
+Source: ros-kinetic-nav-core-adapter
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kinetic-catkin, ros-kinetic-costmap-2d, ros-kinetic-dwb-critics, ros-kinetic-dwb-local-planner, ros-kinetic-dwb-plugins, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core, ros-kinetic-nav-core2, ros-kinetic-nav-grid, ros-kinetic-nav-msgs, ros-kinetic-pluginlib, ros-kinetic-roslint, ros-kinetic-rostest, ros-kinetic-tf, ros-kinetic-visualization-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-nav-core-adapter
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-costmap-2d, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core, ros-kinetic-nav-core2, ros-kinetic-nav-grid, ros-kinetic-nav-msgs, ros-kinetic-pluginlib, ros-kinetic-tf, ros-kinetic-visualization-msgs
+Description: This package contains adapters for using `nav_core` plugins as `nav_core2` plugins and vice versa (more or less).
+ See README.md for more information.
