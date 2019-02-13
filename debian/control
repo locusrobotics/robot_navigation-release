@@ -1,0 +1,12 @@
+Source: ros-lunar-dwb-critics
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lunar-angles, ros-lunar-catkin, ros-lunar-costmap-queue, ros-lunar-dwb-local-planner, ros-lunar-geometry-msgs, ros-lunar-nav-2d-msgs, ros-lunar-nav-2d-utils, ros-lunar-nav-core2, ros-lunar-nav-grid-iterators, ros-lunar-pluginlib, ros-lunar-roscpp, ros-lunar-roslint, ros-lunar-sensor-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-dwb-critics
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lunar-angles, ros-lunar-costmap-queue, ros-lunar-dwb-local-planner, ros-lunar-geometry-msgs, ros-lunar-nav-2d-msgs, ros-lunar-nav-2d-utils, ros-lunar-nav-core2, ros-lunar-nav-grid-iterators, ros-lunar-pluginlib, ros-lunar-roscpp, ros-lunar-sensor-msgs
+Description: Implementations for dwb_local_planner TrajectoryCritic interface
