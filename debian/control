@@ -1,0 +1,12 @@
+Source: ros-kinetic-global-planner-tests
+Section: misc
+Priority: extra
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libyaml-cpp-dev, ros-kinetic-catkin, ros-kinetic-map-server, ros-kinetic-nav-core2, ros-kinetic-nav-msgs, ros-kinetic-pluginlib, ros-kinetic-roscpp, ros-kinetic-roslint
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-global-planner-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libyaml-cpp-dev, ros-kinetic-map-server, ros-kinetic-nav-core2, ros-kinetic-nav-msgs, ros-kinetic-pluginlib, ros-kinetic-roscpp
+Description: A collection of tests for checking the validity and completeness of global planners.
