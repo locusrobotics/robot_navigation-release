@@ -1,42 +1,30 @@
-## The robot_navigation Stack
-### 2.5D Navigation in ROS
+# nav_2d_msgs
 
-## Available Packages:
+This package has basic message types for two dimensional navigation. Many of the messages are similar to those in `geometry_msgs` or `nav_msgs` but are streamlined to only be concerned with 2.5 dimensional `(x, y, theta)` navigation. This eliminates quaternions from the messages in many places, which make calculations faster and avoids that particular headache when only one orientation value is needed for 2.5D navigation.
 
-### Core Interaces
- * `nav_grid` - A templatized interface for overlaying a two dimensional grid on the world.
- * `nav_core2` - Core Costmap and Planner Interfaces
- * `nav_2d_msgs` - Basic message types for two and a half dimensional navigation.
+## Points and Poses
+ * [`Point2D`](msg/Point2D.msg) - like `geometry_msgs::Point` but just `x` and `y` (no `z`)
+ * [`Pose2DStamped`](msg/Pose2DStamped.msg) - `geometry_msgs::Pose2D` with a header
+ * [`Pose2D32`](msg/Pose2D32.msg) - `(x, y, theta)` with only 32bit floating point precision.
+ * [`Path2D`](msg/Path2D.msg) - An array of `Pose2D` with a header. Similar to `nav_msgs::Path` but without redundant headers.
 
-### Local Planning
- * `dwb_local_planner` - The core planner logic and plugin interfaces.
- * `dwb_msgs` - ROS Interfaces for interacting with the dwb local planner.
- * `dwb_plugins` - Plugin implementations for velocity iteration and trajectory generation
- * `dwb_critics` - Critic plugin implementations needed for replicating behavior of dwa
+## Polygons
+ * [`Polygon2D`](msg/Polygon2D.msg) - Like `geometry_msgs::Polygon` but with 64 bit precision and no `z` coordinate.
+ * [`Polygon2DStamped`](msg/Polygon2DStamped.msg) - above with a header
+ * [`ComplexPolygon2D`](msg/ComplexPolygon2D.msg) - Non-simple Polygon2D, i.e. polygon with inner holes
+ * [`Polygon2DCollection`](msg/Polygon2DCollection.msg) - A list of complex polygons, with a header and an optional parallel list of colors.
 
-### Global Planning
- * `dlux_global_planner` - The core planner logic and plugin interfaces.
- * `dlux_plugins` - Plugin implementations for dlux global planner interfaces.
- * `global_planner_tests` - Collection of tests for checking the validity and completeness of global planners.
+## Twists
+ * [`Twist2D`](msg/Twist2D.msg) - Like `geometry_msgs::Twist` but only `(x, y, theta)` (and not separated into linear and angular)
+ * [`Twist2DStamped`](msg/Twist2DStamped.msg) - above with a header
+ * [`Twist2D32`](msg/Twist2D32.msg) - `(x, y, theta)` with only 32bit floating point precision.
 
-### Planner Coordination
- * `locomotor` - Extensible path planning coordination engine that controls what happens when the global and local planners succeed and fail
- * `locomotor_msgs` - An action definition for Locomotor and other related messages
- * `locomove_base` - Extension of Locomotor that replicates `move_base`'s functionality.
+## NavGrids
+ * [`NavGridInfo`](msg/NavGridInfo.msg) - Same data as `nav_grid::NavGridInfo`. Similar to `nav_msgs::MapMetadata`
+ * [`NavGridOfChars`](msg/NavGridOfChars.msg) - Data for `nav_grid::NavGrid<unsigned char>`. Similar to `nav_msgs::OccupancyGrid`
+ * [`NavGridOfDoubles`](msg/NavGridOfDoubles.msg) - Data for `nav_grid::NavGrid<double>`
+ * [`NavGridOfCharsUpdate`](msg/NavGridOfCharsUpdate.msg) and [`NavGridOfDoublesUpdate`](msg/NavGridOfDoublesUpdate.msg) - Similar to `map_msgs::OccupancyGridUpdate`
+ * [`UIntBounds`](msg/UIntBounds.msg) - Same data as `nav_core2::UIntBounds`. Used in both `Update` messages.
 
-### Utilities
- * `nav_2d_utils` - Message conversions, etc.
- * `nav_grid_iterators` - Iterator implementations for moving around the cells of a `nav_grid` in a number of common patterns.
- * `nav_grid_pub_sub` - Publishers and Subscribers for `nav_grid` data.
- * `costmap_queue` - Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
-
-### Backwards Compatibility
- * `nav_core_adapter` - Adapters between `nav_core` and `nav_core2`.
-
-## ROS Buildfarm
-
-|         | source | binary |
-|---------|--------|--------|
-| kinetic | [![Build Status](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/badge/icon?style=flat-square)](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/) | [![Build Status](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/)|
-| melodic | [![Build Status](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/badge/icon?style=flat-square)](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/) | [![Build Status](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/)|
-| noetic  | [![Build Status](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/badge/icon?style=flat-square)](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/) | [![Build Status](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/)|
+## Service
+ * [`SwitchPlugin`](srv/SwitchPlugin.srv) - A simple service equivalent to [SetString.srv](https://discourse.ros.org/t/suggestions-for-std-srvs/1079) use by the PluginMux.
