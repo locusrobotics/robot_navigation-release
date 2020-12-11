@@ -1,0 +1,12 @@
+Source: ros-kinetic-nav-grid-server
+Section: misc
+Priority: optional
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libopencv-dev, ros-kinetic-catkin, ros-kinetic-map-server, ros-kinetic-nav-2d-utils, ros-kinetic-nav-grid, ros-kinetic-nav-grid-iterators, ros-kinetic-nav-grid-pub-sub, ros-kinetic-nav-msgs, ros-kinetic-roscpp, ros-kinetic-roslib, ros-kinetic-roslint
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-nav-grid-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libopencv-dev, ros-kinetic-nav-2d-utils, ros-kinetic-nav-grid, ros-kinetic-nav-grid-iterators, ros-kinetic-nav-grid-pub-sub, ros-kinetic-nav-msgs, ros-kinetic-roscpp
+Description: Customizable tools for publishing images as NavGrids or OccupancyGrids
