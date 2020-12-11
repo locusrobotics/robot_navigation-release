@@ -1,42 +1,34 @@
-## The robot_navigation Stack
-### 2.5D Navigation in ROS
+# robot_nav_rviz_plugins
+RViz visualizations for robot_navigation datatypes
 
-## Available Packages:
 
-### Core Interaces
- * `nav_grid` - A templatized interface for overlaying a two dimensional grid on the world.
- * `nav_core2` - Core Costmap and Planner Interfaces
- * `nav_2d_msgs` - Basic message types for two and a half dimensional navigation.
+## PathDisplay
+This is a simple port of `rviz::PathDisplay` but to work with `nav_2d_msgs::Path2D`.
 
-### Local Planning
- * `dwb_local_planner` - The core planner logic and plugin interfaces.
- * `dwb_msgs` - ROS Interfaces for interacting with the dwb local planner.
- * `dwb_plugins` - Plugin implementations for velocity iteration and trajectory generation
- * `dwb_critics` - Critic plugin implementations needed for replicating behavior of dwa
+## Polygon Displays
+The existing [`rviz::PolygonDisplay`](https://github.com/ros-visualization/rviz/blob/noetic-devel/src/rviz/default_plugin/polygon_display.cpp) draws only the outline of a given polygon, and cannot fill the polygon in with color. This package has three new RViz displays for polygon data:
+ * `robot_nav_rviz_plugins::Polygon3DDisplay` will display `geometry_msgs/PolygonStamped` messages just like `rviz::PolygonDisplay` except it can fill in the polygon.
+ * `robot_nav_rviz_plugins::PolygonDisplay` displays `nav_2d_msgs/Polygon2DStamped` messages
+ * `robot_nav_rviz_plugins::PolygonsDisplay` (note the S in PolygonS) will display `nav_2d_msgs/Polygon2DCollection` messages.
 
-### Global Planning
- * `dlux_global_planner` - The core planner logic and plugin interfaces.
- * `dlux_plugins` - Plugin implementations for dlux global planner interfaces.
- * `global_planner_tests` - Collection of tests for checking the validity and completeness of global planners.
+Each has three display modes, for displaying just the outline, just the filler, or both.
 
-### Planner Coordination
- * `locomotor` - Extensible path planning coordination engine that controls what happens when the global and local planners succeed and fail
- * `locomotor_msgs` - An action definition for Locomotor and other related messages
- * `locomove_base` - Extension of Locomotor that replicates `move_base`'s functionality.
+The behavior is showcased by running `roslaunch robot_nav_viz_demos polygons.launch`.
 
-### Utilities
- * `nav_2d_utils` - Message conversions, etc.
- * `nav_grid_iterators` - Iterator implementations for moving around the cells of a `nav_grid` in a number of common patterns.
- * `nav_grid_pub_sub` - Publishers and Subscribers for `nav_grid` data.
- * `costmap_queue` - Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
+## NavGridDisplay
+This is a robust refactoring of `rviz::MapDisplay` to not only support `nav_msgs::OccupancyGrid` but also the `nav_2d_msgs::NavGridOfChars` and `nav_2d_msgs::NavGridOfDoubles` datatypes. There are couple of noteworthy added features.
 
-### Backwards Compatibility
- * `nav_core_adapter` - Adapters between `nav_core` and `nav_core2`.
+### Dynamic Color Support
+`rviz::MapDisplay` had three hard-coded color schemes for coloring pixels based on the map data.
+ * **Map** Gray scale for `[0, 100]`, green for `[101, 127]`, red/yellow for `[128, 254]` and bluish gray for `255`.
+ * **Costmap**, Invisible for `0`, cyan for `99`, purple for `100`, bluish-gray for `255`, and then the same green/red/yellow as **Map** for `[101, 254]`.
+ * **Raw** Gray scale for `[0, 255]`
 
-## ROS Buildfarm
+The new `NavGridDisplay` types have those color schemes implemented, but also allows for arbitrary other mappings of colors using `pluginlib`. Just define an extension of `robot_nav_rviz_plugins::NavGridPalette` with a unique name and list of as many as 256 colors.
 
-|         | source | binary |
-|---------|--------|--------|
-| kinetic | [![Build Status](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/badge/icon?style=flat-square)](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/) | [![Build Status](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/)|
-| melodic | [![Build Status](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/badge/icon?style=flat-square)](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/) | [![Build Status](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/)|
-| noetic  | [![Build Status](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/badge/icon?style=flat-square)](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/) | [![Build Status](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/)|
+### Dynamic Value Scaling
+In the past, if you wanted to display a grid of values, you would need to either convert it into an `OccupancyGrid` and use the hard-coded color schemes above, or you would need to convert it to a `PointCloud2` and use a Color Transform. The `NavGridOfDoublesDisplay` allows you to publish unbounded double values, and the scale will be dynamically calculated, so the minimum values appear on one side of the `NavGridPalette` and the maximum on the other, even as the extremes change.
+
+Furthermore, there is an option to ignore particular values.
+ * If you don't want the value `-1` to be included, you can set the `Ignore Value Type` to `Value`, and the `Ignore Value` to `-1`, and then `-1` will not be included in the dynamic bounds.
+ * If you don't want any values above 2000 to be included, you can set the `Ignore Value Type` to `Limit` and the `Ignore Value` to `2000` and then any values greater than or equal to 2000 will be ignored.
