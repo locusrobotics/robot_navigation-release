@@ -1,0 +1,12 @@
+Source: ros-kinetic-robot-nav-viz-demos
+Section: misc
+Priority: optional
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kinetic-angles, ros-kinetic-catkin, ros-kinetic-color-util, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-grid, ros-kinetic-nav-grid-iterators, ros-kinetic-nav-grid-pub-sub, ros-kinetic-pluginlib, ros-kinetic-robot-nav-rviz-plugins, ros-kinetic-rosbag, ros-kinetic-roscpp, ros-kinetic-roslaunch, ros-kinetic-roslint, ros-kinetic-rviz
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-robot-nav-viz-demos
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-angles, ros-kinetic-color-util, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-grid, ros-kinetic-nav-grid-iterators, ros-kinetic-nav-grid-pub-sub, ros-kinetic-pluginlib, ros-kinetic-robot-nav-rviz-plugins, ros-kinetic-rosbag, ros-kinetic-roscpp, ros-kinetic-rviz
+Description: Demos for testing/demonstrating the robot_nav_rviz_plugins and color_util packages
