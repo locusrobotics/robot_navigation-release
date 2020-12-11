@@ -1,0 +1,12 @@
+Source: ros-kinetic-locomove-base
+Section: misc
+Priority: optional
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kinetic-catkin, ros-kinetic-locomotor, ros-kinetic-move-base-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core, ros-kinetic-nav-core-adapter, ros-kinetic-roslint
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-locomove-base
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-locomotor, ros-kinetic-move-base-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core, ros-kinetic-nav-core-adapter
+Description: Extension of locomotor that implements move_base's functionality.
