@@ -36,6 +36,7 @@
 #include <nav_core_adapter/costmap_adapter.h>
 #include <nav_2d_utils/conversions.h>
 #include <nav_2d_utils/path_ops.h>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -203,6 +204,7 @@ LocoMoveBase::LocoMoveBase(const ros::NodeHandle& nh) :
   goal_sub_ = simple_nh.subscribe<geometry_msgs::PoseStamped>("goal", 1, boost::bind(&LocoMoveBase::goalCB, this, _1));
 
   server_.registerGoalCallback(std::bind(&LocoMoveBase::executeCB, this));
+  server_.registerPreemptCallback(std::bind(&LocoMoveBase::preemptCB, this));
   server_.start();
 
   resetState();
@@ -281,7 +283,7 @@ void LocoMoveBase::onGlobalCostmapUpdate(const ros::Duration& planning_time)
     std::bind(&LocoMoveBase::onGlobalPlanningException, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void LocoMoveBase::onGlobalCostmapException(nav_core2::CostmapException e, const ros::Duration& planning_time)
+void LocoMoveBase::onGlobalCostmapException(nav_core2::NavCore2ExceptionPtr e_ptr, const ros::Duration& planning_time)
 {
   // If the planner_frequency is non-zero, the costmap will attempt to update again on its own (via the Timer).
   // If it is zero, then we manually request a new update
@@ -311,7 +313,7 @@ void LocoMoveBase::onNewGlobalPlan(nav_2d_msgs::Path2D new_global_plan, const ro
   control_loop_timer_.start();
 }
 
-void LocoMoveBase::onGlobalPlanningException(nav_core2::PlannerException e, const ros::Duration& planning_time)
+void LocoMoveBase::onGlobalPlanningException(nav_core2::NavCore2ExceptionPtr e_ptr, const ros::Duration& planning_time)
 {
   if (has_global_plan_)
   {
@@ -352,7 +354,7 @@ void LocoMoveBase::onLocalCostmapUpdate(const ros::Duration& planning_time)
     std::bind(&LocoMoveBase::onNavigationCompleted, this));
 }
 
-void LocoMoveBase::onLocalCostmapException(nav_core2::CostmapException e, const ros::Duration& planning_time)
+void LocoMoveBase::onLocalCostmapException(nav_core2::NavCore2ExceptionPtr e_ptr, const ros::Duration& planning_time)
 {
   ROS_WARN_NAMED("LocoMoveBase",
                  "Sensor data is out of date, we're not going to allow commanding of the base for safety");
@@ -394,7 +396,7 @@ void LocoMoveBase::onNewLocalPlan(nav_2d_msgs::Twist2DStamped new_command, const
   server_.publishFeedback(feedback);
 }
 
-void LocoMoveBase::onLocalPlanningException(nav_core2::PlannerException e, const ros::Duration& planning_time)
+void LocoMoveBase::onLocalPlanningException(nav_core2::NavCore2ExceptionPtr e_ptr, const ros::Duration& planning_time)
 {
   // check if we've tried to find a valid control for longer than our time limit
   if (ros::Time::now() > last_valid_control_ + ros::Duration(controller_patience_))
@@ -626,6 +628,15 @@ void LocoMoveBase::executeCB()
 {
   auto move_base_goal = server_.acceptNewGoal();
   setGoal(nav_2d_utils::poseStampedToPose2D(move_base_goal->target_pose));
+}
+
+void LocoMoveBase::preemptCB()
+{
+  ROS_INFO("Preempting goal");
+  plan_loop_timer_.stop();
+  control_loop_timer_.stop();
+  resetState();
+  server_.setPreempted();
 }
 
 }  // namespace locomove_base
