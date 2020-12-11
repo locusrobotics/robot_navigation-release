@@ -57,6 +57,38 @@ nav_2d_msgs::Twist2D twist3Dto2D(const geometry_msgs::Twist& cmd_vel)
   return cmd_vel_2d;
 }
 
+nav_2d_msgs::Point2D pointToPoint2D(const geometry_msgs::Point& point)
+{
+  nav_2d_msgs::Point2D output;
+  output.x = point.x;
+  output.y = point.y;
+  return output;
+}
+
+nav_2d_msgs::Point2D pointToPoint2D(const geometry_msgs::Point32& point)
+{
+  nav_2d_msgs::Point2D output;
+  output.x = point.x;
+  output.y = point.y;
+  return output;
+}
+
+geometry_msgs::Point pointToPoint3D(const nav_2d_msgs::Point2D& point)
+{
+  geometry_msgs::Point output;
+  output.x = point.x;
+  output.y = point.y;
+  return output;
+}
+
+geometry_msgs::Point32 pointToPoint32(const nav_2d_msgs::Point2D& point)
+{
+  geometry_msgs::Point32 output;
+  output.x = point.x;
+  output.y = point.y;
+  return output;
+}
+
 nav_2d_msgs::Pose2DStamped stampedPoseToPose2D(const tf::Stamped<tf::Pose>& pose)
 {
   nav_2d_msgs::Pose2DStamped pose2d;
@@ -183,6 +215,44 @@ nav_msgs::Path pathToPath(const nav_2d_msgs::Path2D& path2d)
   return path;
 }
 
+geometry_msgs::Polygon polygon2Dto3D(const nav_2d_msgs::Polygon2D& polygon_2d)
+{
+  geometry_msgs::Polygon polygon;
+  polygon.points.reserve(polygon_2d.points.size());
+  for (const auto& pt : polygon_2d.points)
+  {
+    polygon.points.push_back(pointToPoint32(pt));
+  }
+  return polygon;
+}
+
+nav_2d_msgs::Polygon2D polygon3Dto2D(const geometry_msgs::Polygon& polygon_3d)
+{
+  nav_2d_msgs::Polygon2D polygon;
+  polygon.points.reserve(polygon_3d.points.size());
+  for (const auto& pt : polygon_3d.points)
+  {
+    polygon.points.push_back(pointToPoint2D(pt));
+  }
+  return polygon;
+}
+
+geometry_msgs::PolygonStamped polygon2Dto3D(const nav_2d_msgs::Polygon2DStamped& polygon_2d)
+{
+  geometry_msgs::PolygonStamped polygon;
+  polygon.header = polygon_2d.header;
+  polygon.polygon = polygon2Dto3D(polygon_2d.polygon);
+  return polygon;
+}
+
+nav_2d_msgs::Polygon2DStamped polygon3Dto2D(const geometry_msgs::PolygonStamped& polygon_3d)
+{
+  nav_2d_msgs::Polygon2DStamped polygon;
+  polygon.header = polygon_3d.header;
+  polygon.polygon = polygon3Dto2D(polygon_3d.polygon);
+  return polygon;
+}
+
 nav_2d_msgs::NavGridInfo toMsg(const nav_grid::NavGridInfo& info)
 {
   nav_2d_msgs::NavGridInfo msg;
@@ -207,9 +277,10 @@ nav_grid::NavGridInfo fromMsg(const nav_2d_msgs::NavGridInfo& msg)
   return info;
 }
 
-nav_grid::NavGridInfo infoToInfo(const nav_msgs::MapMetaData& metadata)
+nav_grid::NavGridInfo infoToInfo(const nav_msgs::MapMetaData& metadata, const std::string& frame)
 {
   nav_grid::NavGridInfo info;
+  info.frame_id = frame;
   info.resolution = metadata.resolution;
   info.width = metadata.width;
   info.height = metadata.height;
@@ -223,15 +294,30 @@ nav_grid::NavGridInfo infoToInfo(const nav_msgs::MapMetaData& metadata)
   return info;
 }
 
+geometry_msgs::Pose getOrigin3D(const nav_grid::NavGridInfo& info)
+{
+  geometry_msgs::Pose origin;
+  origin.position.x = info.origin_x;
+  origin.position.y = info.origin_y;
+  origin.orientation.w = 1.0;
+  return origin;
+}
+
+geometry_msgs::Pose2D getOrigin2D(const nav_grid::NavGridInfo& info)
+{
+  geometry_msgs::Pose2D origin;
+  origin.x = info.origin_x;
+  origin.y = info.origin_y;
+  return origin;
+}
+
 nav_msgs::MapMetaData infoToInfo(const nav_grid::NavGridInfo & info)
 {
   nav_msgs::MapMetaData metadata;
   metadata.resolution = info.resolution;
   metadata.width = info.width;
   metadata.height = info.height;
-  metadata.origin.position.x = info.origin_x;
-  metadata.origin.position.y = info.origin_y;
-  metadata.origin.orientation.w = 1.0;
+  metadata.origin = getOrigin3D(info);
   return metadata;
 }
 
