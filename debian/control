@@ -1,0 +1,12 @@
+Source: ros-kinetic-costmap-queue
+Section: misc
+Priority: optional
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kinetic-catkin, ros-kinetic-nav-core2, ros-kinetic-roscpp, ros-kinetic-roslint, ros-kinetic-rosunit
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-costmap-queue
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-nav-core2, ros-kinetic-roscpp
+Description: Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
