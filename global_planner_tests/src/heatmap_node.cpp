@@ -36,6 +36,7 @@
 #include <nav_grid/coordinate_conversion.h>
 #include <pluginlib/class_loader.h>
 #include <algorithm>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -57,7 +58,7 @@ int main(int argc, char** argv)
   // *************** Initialize the Planner ****************************************************************************
   ros::init(argc, argv, "plan");
   ros::NodeHandle private_nh("~");
-  TFListenerPtr tf = std::make_shared<tf2_ros::Buffer>();
+  TFListenerPtr tf = std::make_shared<tf::TransformListener>(ros::Duration(10));
 
   std::string map_filename;
   private_nh.param("map_filename", map_filename, std::string("package://global_planner_tests/maps/smile.png"));

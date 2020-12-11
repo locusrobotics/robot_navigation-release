@@ -39,10 +39,11 @@
 #include <dlux_global_planner/dlux_global_planner.h>
 #include <nav_grid/coordinate_conversion.h>
 #include <gtest/gtest.h>
+#include <memory>
 #include <string>
 #include <vector>
 
-const std::string map_path = "package://dlux_plugins/test/robert_frost.png";
+const char map_path[] = "package://dlux_plugins/test/robert_frost.png";
 
 int barrier_x = 5;
 int barrier_y0 = 1;
@@ -84,9 +85,9 @@ bool pathsEqual(const nav_2d_msgs::Path2D& path_a, const nav_2d_msgs::Path2D& pa
 void replanning_test(const std::string& ns, bool expect_different,
                      bool path_caching = false, double improvement_threshold = -1.0)
 {
-  TFListenerPtr tf = std::make_shared<tf2_ros::Buffer>();
+  TFListenerPtr tf = std::make_shared<tf::TransformListener>(ros::Duration(10));
   std::shared_ptr<global_planner_tests::EasyCostmap> easy_costmap =
-        std::make_shared<global_planner_tests::EasyCostmap>(map_path, 1.0);
+        std::make_shared<global_planner_tests::EasyCostmap>(std::string(map_path), 1.0);
 
   dlux_global_planner::DluxGlobalPlanner global_planner;
   ros::NodeHandle nh("~"), private_nh("~/" + ns);

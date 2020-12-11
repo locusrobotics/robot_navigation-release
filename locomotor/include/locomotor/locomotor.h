@@ -47,8 +47,8 @@
 #include <pluginlib/class_loader.h>
 #include <nav_2d_utils/odom_subscriber.h>
 #include <nav_2d_utils/plugin_mux.h>
-#include <tf2_ros/transform_listener.h>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -56,10 +56,10 @@ namespace locomotor
 {
 // Callback Type Definitions
 using CostmapUpdateCallback = std::function<void (const ros::Duration&)>;
-using CostmapUpdateExceptionCallback = std::function<void (nav_core2::CostmapException, const ros::Duration&)>;
+using CostmapUpdateExceptionCallback = std::function<void (nav_core2::NavCore2ExceptionPtr, const ros::Duration&)>;
 using GlobalPlanCallback = std::function<void (const nav_2d_msgs::Path2D&, const ros::Duration&)>;
 using LocalPlanCallback = std::function<void (const nav_2d_msgs::Twist2DStamped&, const ros::Duration&)>;
-using PlannerExceptionCallback = std::function<void (nav_core2::PlannerException, const ros::Duration&)>;
+using PlannerExceptionCallback = std::function<void (nav_core2::NavCore2ExceptionPtr, const ros::Duration&)>;
 using NavigationCompleteCallback = std::function<void ()>;
 using NavigationFailureCallback = std::function<void (const locomotor_msgs::ResultCode)>;
 
@@ -222,7 +222,6 @@ protected:
   // Tools for getting the position and velocity of the robot
   nav_2d_msgs::Pose2DStamped getRobotPose(const std::string& target_frame) const;
   TFListenerPtr tf_;
-  std::shared_ptr<tf2_ros::TransformListener> tf2_listener_;
   bool use_latest_pose_;
   std::shared_ptr<nav_2d_utils::OdomSubscriber> odom_sub_;
 

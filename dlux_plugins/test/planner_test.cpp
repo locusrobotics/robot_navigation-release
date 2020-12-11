@@ -35,6 +35,7 @@
 #include <dlux_global_planner/dlux_global_planner.h>
 #include <ros/ros.h>
 #include <gtest/gtest.h>
+#include <memory>
 #include <string>
 
 using global_planner_tests::many_map_test_suite;
@@ -42,7 +43,7 @@ using dlux_global_planner::DluxGlobalPlanner;
 
 void dlux_test(std::string ns, std::string potential_calculator = "", std::string traceback = "")
 {
-  TFListenerPtr tf = std::make_shared<tf2_ros::Buffer>();
+  TFListenerPtr tf = std::make_shared<tf::TransformListener>(ros::Duration(10));
   DluxGlobalPlanner planner;
 
   ros::NodeHandle nh("~/" + ns);

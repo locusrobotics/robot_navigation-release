@@ -40,6 +40,7 @@
 #include <nav_core_adapter/costmap_adapter.h>
 #include <nav_2d_utils/odom_subscriber.h>
 #include <pluginlib/class_loader.h>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -56,7 +57,7 @@ public:
   LocalPlannerAdapter();
 
   // Standard ROS Local Planner Interface
-  void initialize(std::string name, tf2_ros::Buffer* tf, costmap_2d::Costmap2DROS* costmap_ros) override;
+  void initialize(std::string name, tf::TransformListener* tf, costmap_2d::Costmap2DROS* costmap_ros) override;
   bool computeVelocityCommands(geometry_msgs::Twist& cmd_vel) override;
   bool isGoalReached() override;
   bool setPlan(const std::vector<geometry_msgs::PoseStamped>& plan) override;

@@ -33,13 +33,14 @@
  */
 #include <global_planner_tests/many_map_test_suite.h>
 #include <pluginlib/class_loader.h>
+#include <memory>
 #include <string>
 
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "plan");
   ros::NodeHandle private_nh("~");
-  TFListenerPtr tf = std::make_shared<tf2_ros::Buffer>();
+  TFListenerPtr tf = std::make_shared<tf::TransformListener>(ros::Duration(10));
 
   pluginlib::ClassLoader<nav_core2::GlobalPlanner> global_planner_loader("nav_core2", "nav_core2::GlobalPlanner");
 

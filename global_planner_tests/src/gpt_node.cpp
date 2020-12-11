@@ -34,13 +34,14 @@
 #include <global_planner_tests/global_planner_tests.h>
 #include <global_planner_tests/easy_costmap.h>
 #include <pluginlib/class_loader.h>
+#include <memory>
 #include <string>
 
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "plan");
   ros::NodeHandle private_nh("~");
-  TFListenerPtr tf = std::make_shared<tf2_ros::Buffer>();
+  TFListenerPtr tf = std::make_shared<tf::TransformListener>(ros::Duration(10));
 
   std::string map_filename;
   private_nh.param("map_filename", map_filename, std::string("package://global_planner_tests/maps/smile.png"));

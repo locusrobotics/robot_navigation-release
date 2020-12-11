@@ -37,17 +37,16 @@
 
 TEST(LocalPlannerAdapter, unload_local_planner)
 {
-  tf2_ros::Buffer tf;
-  tf.setUsingDedicatedThread(true);
-
+  tf::TransformListener tf(ros::Duration(10));
   // This empty transform is added to satisfy the constructor of
   // Costmap2DROS, which waits for the transform from map to base_link
   // to become available.
-  geometry_msgs::TransformStamped base_rel_map;
-  base_rel_map.child_frame_id = "/base_link";
-  base_rel_map.header.frame_id = "/map";
-  base_rel_map.transform.rotation.w = 1.0;
-  tf.setTransform(base_rel_map, "unload", true);
+  tf::StampedTransform base_rel_map;
+  base_rel_map.child_frame_id_ = "/base_link";
+  base_rel_map.frame_id_ = "/map";
+  base_rel_map.stamp_ = ros::Time::now();
+  base_rel_map.setIdentity();
+  tf.setTransform(base_rel_map);
 
   nav_core_adapter::LocalPlannerAdapter* lpa = new nav_core_adapter::LocalPlannerAdapter();
 

@@ -34,9 +34,9 @@
 #ifndef NAV_CORE2_COMMON_H
 #define NAV_CORE2_COMMON_H
 
-#include <tf2_ros/buffer.h>
+#include <tf/transform_listener.h>
 #include <memory>
 
-using TFListenerPtr = std::shared_ptr<tf2_ros::Buffer>;
+using TFListenerPtr = std::shared_ptr<tf::TransformListener>;
 
 #endif  // NAV_CORE2_COMMON_H
