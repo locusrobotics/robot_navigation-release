@@ -1,42 +1,48 @@
-## The robot_navigation Stack
-### 2.5D Navigation in ROS
+# nav_core_adapter
+This package contains adapters for using `nav_core` plugins as `nav_core2` plugins and vice versa (more or less). In general, the adaptation process involves
+ * Converting between 2d and 3d datatypes.
+ * Converting between returning false and throwing exceptions on failure.
 
-## Available Packages:
+We also provide an adapter for using a `costmap_2d::Costmap2DROS` as a plugin for the `nav_core2::Costmap` interface.
 
-### Core Interaces
- * `nav_grid` - A templatized interface for overlaying a two dimensional grid on the world.
- * `nav_core2` - Core Costmap and Planner Interfaces
- * `nav_2d_msgs` - Basic message types for two and a half dimensional navigation.
+## Adapter Classes
+ * Global Planner Adapters
+   * `GlobalPlannerAdapter` is used for employing a `nav_core2` global planner interface (such as `dlux_global_planner`) as a `nav_core` plugin, like in `move_base`.
+   * `GlobalPlannerAdapter2` is used for employing a `nav_core` global planner interface (such as `navfn`)
+as a `nav_core2` plugin, like in `locomotor`.
+ * Local Planner Adapter
+   * `LocalPlannerAdapter` is used for employing a `nav_core2` local planner interface (such as `dwb_local_planner`) as a `nav_core` plugin, like in `move_base`. In addition to the standard adaptation steps listed above, the local planner adapter also uses the costmap to grab the global pose and subscribes to the odometry in order to get the current velocity.
+   * There is no `LocalPlannerAdapter2`. The `nav_core2` interfaces use additional information (like velocity) in the `local_planner` interface than its `nav_core` counterpart. This information would be ignored by a `nav_core` planner, so no adapter is provided.
+ * `CostmapAdapter` provides most of the functionality from `nav_core2::Costmap` and also provides a raw pointer to the `Costmap2DROS` object. It is not a perfect adaptation, because
+   * `Costmap2DROS` starts its own update thread and updates on its own schedule, so calling `update()` does not actually cause the costmap to update. It does update some of the metadata though.
+   * `setInfo` is not implemented.
 
-### Local Planning
- * `dwb_local_planner` - The core planner logic and plugin interfaces.
- * `dwb_msgs` - ROS Interfaces for interacting with the dwb local planner.
- * `dwb_plugins` - Plugin implementations for velocity iteration and trajectory generation
- * `dwb_critics` - Critic plugin implementations needed for replicating behavior of dwa
+## Parameter Setup
+Let's look at a practical example of how to use `dwb_local_planner` in `move_base`.
 
-### Global Planning
- * `dlux_global_planner` - The core planner logic and plugin interfaces.
- * `dlux_plugins` - Plugin implementations for dlux global planner interfaces.
- * `global_planner_tests` - Collection of tests for checking the validity and completeness of global planners.
+If you were using `DWA` you would probably have parameters set up like this:
+```
+base_local_planner: dwa_local_planner/DWALocalPlanner
+DWALocalPlanner:
+  acc_lim_x: 0.42
+  ...
+```
+i.e. you specify
+ * The name of the planner
+ * A bunch of additional parameters within the planner's namespace
 
-### Planner Coordination
- * `locomotor` - Extensible path planning coordination engine that controls what happens when the global and local planners succeed and fail
- * `locomotor_msgs` - An action definition for Locomotor and other related messages
- * `locomove_base` - Extension of Locomotor that replicates `move_base`'s functionality.
+To use the adapter, you have to provide additional information.
+```
+base_local_planner: nav_core_adapter::LocalPlannerAdapter
+LocalPlannerAdapter:
+  planner_name: dwb_local_planner::DWBLocalPlanner
+DWBLocalPlanner:
+  acc_lim_x: 0.42
+  ...
+```
+i.e.
+ * The name of the planner now points at the adapter
+ * The name of the actual planner loaded into the adapter's namespace
+ * The planner's parameters still in the planner's namespace.
 
-### Utilities
- * `nav_2d_utils` - Message conversions, etc.
- * `nav_grid_iterators` - Iterator implementations for moving around the cells of a `nav_grid` in a number of common patterns.
- * `nav_grid_pub_sub` - Publishers and Subscribers for `nav_grid` data.
- * `costmap_queue` - Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
-
-### Backwards Compatibility
- * `nav_core_adapter` - Adapters between `nav_core` and `nav_core2`.
-
-## ROS Buildfarm
-
-|         | source | binary |
-|---------|--------|--------|
-| kinetic | [![Build Status](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/badge/icon?style=flat-square)](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/) | [![Build Status](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/)|
-| melodic | [![Build Status](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/badge/icon?style=flat-square)](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/) | [![Build Status](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/)|
-| noetic  | [![Build Status](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/badge/icon?style=flat-square)](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/) | [![Build Status](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/)|
+The process for the global planners is similar.
