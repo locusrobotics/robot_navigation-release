@@ -1,0 +1,12 @@
+Source: ros-kinetic-robot-nav-tools
+Section: misc
+Priority: optional
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kinetic-catkin
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-robot-nav-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-color-util, ros-kinetic-robot-nav-rviz-plugins, ros-kinetic-robot-nav-viz-demos
+Description: A collection of tools / accessories for the robot_navigation packages
