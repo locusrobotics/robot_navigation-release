@@ -38,6 +38,7 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/point_cloud_conversion.h>
 #include <nav_2d_utils/conversions.h>
+#include <memory>
 #include <vector>
 
 namespace dwb_local_planner
@@ -199,7 +200,7 @@ void DWBPublisher::publishCostGrid(const nav_core2::Costmap::Ptr costmap,
     double scale = critic->getScale();
     for (i = 0; i < n; i++)
     {
-      totals.values[i] = cost_grid_pc.channels[channel_index].values[i] * scale;
+      totals.values[i] += cost_grid_pc.channels[channel_index].values[i] * scale;
     }
   }
   cost_grid_pc.channels.push_back(totals);
