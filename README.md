@@ -1,42 +1,38 @@
-## The robot_navigation Stack
-### 2.5D Navigation in ROS
+# color_util
+An almost dependency-less library for converting between color spaces
 
-## Available Packages:
+## Datatypes
+This package contains representations for two different color spaces with two different datatypes in [include/color_util/types.h](include/color_util/types.h):
+ * Red-Green-Blue-Alpha (`RGBA`)
+ * Hue-Saturation-Value-Alpha (`HSVA`).
 
-### Core Interaces
- * `nav_grid` - A templatized interface for overlaying a two dimensional grid on the world.
- * `nav_core2` - Core Costmap and Planner Interfaces
- * `nav_2d_msgs` - Basic message types for two and a half dimensional navigation.
+Each of these are represented with two datatypes.
+ * Four `double`s with values ranging `[0.0, 1.0]`
+ * Four `unsigned char`s with values ranging `[0, 255]`.
 
-### Local Planning
- * `dwb_local_planner` - The core planner logic and plugin interfaces.
- * `dwb_msgs` - ROS Interfaces for interacting with the dwb local planner.
- * `dwb_plugins` - Plugin implementations for velocity iteration and trajectory generation
- * `dwb_critics` - Critic plugin implementations needed for replicating behavior of dwa
+Note that with `unsigned char`, the color is represented by a total of 24 bits, which we use for notation. The four resulting types are
+ * `ColorRGBA` - `RGBA/double`
+ * `ColorRGBA24` - `RGBA/unsigned char`
+ * `ColorHSVA` - `HSVA/double`
+ * `ColorHSVA24` - `HSVA/unsigned char`
 
-### Global Planning
- * `dlux_global_planner` - The core planner logic and plugin interfaces.
- * `dlux_plugins` - Plugin implementations for dlux global planner interfaces.
- * `global_planner_tests` - Collection of tests for checking the validity and completeness of global planners.
+## Conversions
+With [include/color_util/convert.h](include/color_util/convert.h), you can convert between the above types and to `std_msgs::ColorRGBA` (which has floating point as its datatype).
 
-### Planner Coordination
- * `locomotor` - Extensible path planning coordination engine that controls what happens when the global and local planners succeed and fail
- * `locomotor_msgs` - An action definition for Locomotor and other related messages
- * `locomove_base` - Extension of Locomotor that replicates `move_base`'s functionality.
+## Blending
+With [include/color_util/blend.h](include/color_util/blend.h), you can create mixtures of two different colors. There are three options.
 
-### Utilities
- * `nav_2d_utils` - Message conversions, etc.
- * `nav_grid_iterators` - Iterator implementations for moving around the cells of a `nav_grid` in a number of common patterns.
- * `nav_grid_pub_sub` - Publishers and Subscribers for `nav_grid` data.
- * `costmap_queue` - Tool for iterating through the cells of a costmap to find the closest distance to a subset of cells.
+| Blend Method   | Image | Note |
+| ------------   | ----- | ---- |
+| `rgbaBlend`    | ![rgba blend example](doc/blend00.png) | Linear interpolation of the `RGBA` values. Note that the bars in the middle are less saturated than the edges. |
+| `hueBlend`     | ![hue blend example](doc/blend01.png) | Linear interpolation of the `HSVA` values. In this example, it goes from red (hue=0.0) to blue (hue=0.6) through green (hue=0.3) |
+| `hueBlendPlus` | ![hue blend plus example](doc/blend02.png) | Respects the circular nature of the hue representation and uses the shortest linear interpolation of the `HSVA` values. In this example, it goes from red (hue=0.0) to blue (hue=0.6) through magenta (hue=0.8) |
 
-### Backwards Compatibility
- * `nav_core_adapter` - Adapters between `nav_core` and `nav_core2`.
+You can experiment with the blending methods by running `roslaunch robot_nav_viz_demos spectrum_demo.launch`.
 
-## ROS Buildfarm
+## Named Colors
+For certain applications, there is a need for accessing specific colors, and it can be annoying to have to specify hex values for each individual color. Other times, you may want to access a list of some number of unique colors. For this, this package provides the [`named_colors` header](include/color_util/named_colors.h) which allows you to access an array of 55 named colors either through a vector or an enum. The colors are made up of 18 colors, each with a standard, light and dark variant, plus transparent.
 
-|         | source | binary |
-|---------|--------|--------|
-| kinetic | [![Build Status](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/badge/icon?style=flat-square)](http://build.ros.org/view/Ksrc_uX/job/Ksrc_uX__robot_navigation__ubuntu_xenial__source/) | [![Build Status](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__robot_navigation__ubuntu_xenial_amd64__binary/)|
-| melodic | [![Build Status](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/badge/icon?style=flat-square)](http://build.ros.org/view/Msrc_uB/job/Msrc_uB__robot_navigation__ubuntu_bionic__source/) | [![Build Status](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Mbin_uB64/job/Mbin_uB64__robot_navigation__ubuntu_bionic_amd64__binary/)|
-| noetic  | [![Build Status](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/badge/icon?style=flat-square)](http://build.ros.org/view/Nsrc_uF/job/Nsrc_uF__robot_navigation__ubuntu_focal__source/) | [![Build Status](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/badge/icon?style=flat-square)](http://build.ros.org/view/Nbin_uF64/job/Nbin_uF64__robot_navigation__ubuntu_focal_amd64__binary/)|
+![color values](doc/named.png)
+
+The list can be accessed with `color_util::getNamedColors()` and individual colors can be grabbed with `color_util::get(NamedColor::RED)`
