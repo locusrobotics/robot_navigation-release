@@ -1,3 +1,50 @@
+## robot_navigation (kinetic) - 0.3.0-1
+
+The packages in the `robot_navigation` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release robot_navigation -r kinetic --edit` on `Fri, 11 Dec 2020 19:45:32 -0000`
+
+These packages were released:
+- `color_util`
+- `costmap_queue`
+- `dlux_global_planner`
+- `dlux_plugins`
+- `dwb_critics`
+- `dwb_local_planner`
+- `dwb_msgs`
+- `dwb_plugins`
+- `global_planner_tests`
+- `locomotor`
+- `locomotor_msgs`
+- `locomove_base`
+- `nav_2d_msgs`
+- `nav_2d_utils`
+- `nav_core2`
+- `nav_core_adapter`
+- `nav_grid`
+- `nav_grid_iterators`
+- `nav_grid_pub_sub`
+- `nav_grid_server`
+- `robot_nav_rviz_plugins`
+- `robot_nav_tools`
+- `robot_nav_viz_demos`
+- `robot_navigation`
+
+Version of package(s) in repository `robot_navigation`:
+
+- upstream repository: https://github.com/locusrobotics/robot_navigation.git
+- release repository: https://github.com/locusrobotics/robot_navigation-release.git
+- rosdistro version: `0.2.5-0`
+- old version: `0.2.5-0`
+- new version: `0.3.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.10.0`
+- catkin_pkg version: `0.4.23`
+- rosdep version: `0.19.0`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## robot_navigation (melodic) - 0.2.5-0
 
 The packages in the `robot_navigation` repository were released into the `melodic` distro by running `/usr/bin/bloom-release robot_navigation -r melodic -e` on `Wed, 13 Feb 2019 16:25:22 -0000`
