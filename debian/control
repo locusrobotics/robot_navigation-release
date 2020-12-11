@@ -1,0 +1,12 @@
+Source: ros-kinetic-robot-nav-rviz-plugins
+Section: misc
+Priority: optional
+Maintainer: David V. Lu!! <davidvlu@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-kinetic-catkin, ros-kinetic-color-util, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core2, ros-kinetic-nav-grid, ros-kinetic-nav-grid-iterators, ros-kinetic-nav-grid-pub-sub, ros-kinetic-nav-msgs, ros-kinetic-pluginlib, ros-kinetic-roscpp, ros-kinetic-roslint, ros-kinetic-rviz, ros-kinetic-std-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-robot-nav-rviz-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, qtbase5-dev, ros-kinetic-color-util, ros-kinetic-geometry-msgs, ros-kinetic-nav-2d-msgs, ros-kinetic-nav-2d-utils, ros-kinetic-nav-core2, ros-kinetic-nav-grid, ros-kinetic-nav-grid-iterators, ros-kinetic-nav-grid-pub-sub, ros-kinetic-nav-msgs, ros-kinetic-pluginlib, ros-kinetic-roscpp, ros-kinetic-rviz, ros-kinetic-std-msgs
+Description: RViz visualizations for robot_navigation datatypes
